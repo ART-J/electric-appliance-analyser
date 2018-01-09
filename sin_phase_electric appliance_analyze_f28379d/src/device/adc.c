@@ -114,7 +114,7 @@ void adc2_init(void)
     ADC_enableConverter(ADCD_BASE);
     DEVICE_DELAY_US(1000);
 
-    ADC_setupSOC(ADCD_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM1_SOCA,
+    ADC_setupSOC(ADCD_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM1_SOCA,   //设置为EPWM触发采样
                  ADC_CH_ADCIN4_ADCIN5, 64);
 
     //
@@ -139,14 +139,14 @@ void adc2_init(void)
 
 void adc1_2_start(void)
 {
-    if (adc1_ready != 1 || adc2_ready != 1) {
+    if (adc1_ready != 1 || adc2_ready != 1) {      //判忙，若ADC1，ADC2等于0表示上次采集未结束
         return;
     } else {
-        adc1_ready = 0;
+        adc1_ready = 0;                            //清零标志位
         adc2_ready = 0;
-        Interrupt_enable(INT_ADCC1);
-        Interrupt_enable(INT_ADCD1);
-        epwm1_start();
+        Interrupt_enable(INT_ADCC1);               //使能ADCC1中断
+        Interrupt_enable(INT_ADCD1);               //使能ADCD1中断   (C1,D1为一组差分ADC)
+        epwm1_start();                             //使能PWM  触发ADC采样
     }
 }
 
@@ -159,7 +159,7 @@ __interrupt void adc1_isr(void)
     //
     // Add the latest result to the buffer
     //
-    adc1_results[adc1_index] = ADC_readResult(ADCCRESULT_BASE, ADC_SOC_NUMBER0) - 31389;
+    adc1_results[adc1_index] = ADC_readResult(ADCCRESULT_BASE, ADC_SOC_NUMBER0) - 31389;       //？？？
     adc1_index += 2;
     //
     // Set the bufferFull flag if the buffer is full
@@ -168,13 +168,13 @@ __interrupt void adc1_isr(void)
         adc1_index = 0;
 
         epwm1_stop();
-        Interrupt_disable(INT_ADCC1);
+        Interrupt_disable(INT_ADCC1);              //取消ADCC1中断
 
-        if (adc1_buffer_read == 1) {
+        if (adc1_buffer_read == 1) {                //？？
             adc1_buffer_read = 0;
             memcpy_fast(adc1_buffer_sample, adc1_results, sizeof(adc1_buffer_sample));
         }
-        adc1_ready = 1;
+        adc1_ready = 1;                            //采集完毕，标志位置一
     }
 
     //

@@ -22,7 +22,7 @@ void eqep1_position_caculate(void)
     if (EQEP_getPosition(EQEP1_BASE) > 32768) {
         EQEP_setPosition(EQEP1_BASE, 0);
     }
-    eqep1_position = EQEP_getPosition(EQEP1_BASE) / 2;
+    eqep1_position = EQEP_getPosition(EQEP1_BASE) / 2;//每两个脉冲表示进了一个位置？？
 }
 
 void eqep2_position_caculate(void)

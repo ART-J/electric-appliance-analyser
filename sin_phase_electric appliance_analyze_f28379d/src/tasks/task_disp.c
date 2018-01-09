@@ -297,7 +297,7 @@ void disp_status(void)
     }
 }
 
-void disp_time(void)
+void disp_time(void)                    //显示时钟计数时间
 {
     extern uint16_t cpuTimer0IntCount;
     char str_time[24] = {0};
@@ -321,10 +321,10 @@ void disp_menu(void)
 
     uint16_t i;
 
-    for (i=0; i<menu_item_num; i++) {
+    for (i=0; i<menu_item_num; i++) {                   //将选中菜单反白显示
         snprintf(str_menu_item, 17, "%2u.%s", i+1, menu_item_string[i]);
         if (i == menu_item) {
-            ssd1351_display_string(0, i*16, str_menu_item, FONT_1608, menu_item_back_color[i], menu_item_fore_color[i]);
+            ssd1351_display_string(0, i*16, str_menu_item, FONT_1608, menu_item_back_color[i], menu_item_fore_color[i]); //将选中菜单反白显示
         } else {
             ssd1351_display_string(0, i*16, str_menu_item, FONT_1608, menu_item_fore_color[i], menu_item_back_color[i]);
         }
@@ -341,6 +341,6 @@ void disp_refresh(void)
         disp_refresh_flag = 0;
         ssd1351_clear_gram();
         printf("menu_level : %u menu_item : %u\n", menu_level, menu_item);
-        SCI_writeCharArray(SCIB_BASE, (uint16_t *)"01234567890\r\n", sizeof("01234567890\r\n")-1);
+        SCI_writeCharArray(SCIB_BASE, (uint16_t *)"01234567890\r\n", sizeof("01234567890\r\n")-1);   //???
     }
 }

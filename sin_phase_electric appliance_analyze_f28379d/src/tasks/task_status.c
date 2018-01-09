@@ -231,7 +231,9 @@ void status_learn(void)
 
     func_flag = 0;
 }
-
+/************************************
+ * 清除各用电器初始稳定状态值范围（min~max）
+ ***********************************/
 void status_clear(void)
 {
     extern uint16_t disp_refresh_flag;
@@ -251,7 +253,9 @@ void status_clear(void)
     ssd1351_display_string(32, 64, "   OK  ", FONT_1608, Yellow, Blue);
     DEVICE_DELAY_US(1000000);
 }
-
+/************************************
+ * 设置各用电器初始稳定状态值范围（min~max）
+ ***********************************/
 void status_init(void)
 {
     elec_param[1].current_max = 0.0411013141;

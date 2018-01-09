@@ -30,19 +30,19 @@ void device_init(void)
     EINT;   // Enable interrupts
     ERTM;   // Enable debug events
 
-    sci1_init();
+    sci1_init();         //设置通信总线
     sci2_init();
     spi1_init();         // SPI总线配置
-    led_init();
+    led_init();          //指示灯配置
     key_init();         // 按键配置
-    epwm1_init();
+    epwm1_init();       //设置ADC采样触发源EPWM
     adc1_init();        // ADC配置
     adc2_init();        // ADC配置
     eqep1_init();       // eQEP配置
     eqep3_init();       // eQEP配置
     ecap1_init();       // eQEP配置
     ecap2_init();       // eQEP配置
-    cpu_timer_init();
+    cpu_timer_init();   //定时中断配置
 }
 
 void driver_init(void)

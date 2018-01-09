@@ -55,23 +55,23 @@ void menu_run(void)
     extern volatile uint16_t adc2_buffer_read;
     extern volatile uint16_t ecap1_ready;
     extern volatile uint16_t ecap2_ready;
-    extern uint32_t eqep1_position;
+    extern uint32_t eqep1_position;                //编码器按键
     extern uint16_t func_flag;
 
-    eqep1_position_caculate();
+    eqep1_position_caculate();                     //编码器位置检测  ？？在主函数中扫描检测？
 
-    disp_refresh();
-    switch (menu_level) {
+    disp_refresh();                                //显示菜单等级
+    switch (menu_level) {                          //菜单等级0:,1:
         case 0:
-            menu_item = (uint16_t)eqep1_position % menu_item_num;
-            disp_menu();
-            disp_time();
+            menu_item = (uint16_t)eqep1_position % menu_item_num;   //旋转按钮切换菜单项，菜单数为6，eqep1_position累加为清零所以要对6取模。
+            disp_menu();                                            //菜单项显示函数，反白表示当前选中项
+            disp_time();                                            //显示程序运行时间
             break;
         case 1:
             switch (menu_item) {
-                case MENU_ITEM_MEASURE:
-                    func_flag = 0;
-                    adc1_2_start();
+                case MENU_ITEM_MEASURE:                            //测量模式。
+                    func_flag = 0;                                 //？？
+                    adc1_2_start();                                //启动ADC
                     if (adc1_buffer_read == 0) {
                         adc1_buffer_read = 1;
                         adc1_voltage_caculate();

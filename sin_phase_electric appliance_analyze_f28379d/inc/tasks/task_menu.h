@@ -8,7 +8,7 @@
 #ifndef INC_TASKS_TASK_MENU_H_
 #define INC_TASKS_TASK_MENU_H_
 
-enum menu_level_t {
+enum menu_level_t {                //菜单等级0:,1:
     MENU_LEVEL_1   = 0x0,
     MENU_LEVEL_2   = 0x1
 };
