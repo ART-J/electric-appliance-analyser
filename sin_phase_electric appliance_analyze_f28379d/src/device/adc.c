@@ -195,13 +195,13 @@ __interrupt void adc2_isr(void)
     //
     // Set the bufferFull flag if the buffer is full
     //
-    if (2048 <= adc2_index) {
+    if (2048 <= adc2_index) {      //取满值
         adc2_index = 0;
 
         epwm1_stop();
         Interrupt_disable(INT_ADCD1);
 
-        if (adc2_buffer_read == 1) {
+        if (adc2_buffer_read == 1) {     //adc2_buffer_read初始值为1，若ADC采集完值，且adc2_buffer_read为1则复制adc2_buffer_sample值到 adc2_results数组
             adc2_buffer_read = 0;
             memcpy_fast(adc2_buffer_sample, adc2_results, sizeof(adc2_buffer_sample));
         }

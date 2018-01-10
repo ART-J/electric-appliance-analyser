@@ -259,7 +259,7 @@ void disp_adc1_2_power(void)
 
     char str_factor[20];
 
-    snprintf(str_factor, 32, "PF:%14.3lf", round(adc1_2_power_factor * 1e3) / 1e3);
+    snprintf(str_factor, 32, "PF:%14.3lf", round(adc1_2_power_factor * 1e3) / 1e3);   //只显示功率因数？
 
 //    ssd1351_display_num(0, 0, ecap1IntCount, 8, FONT_3216, Black, White);
 //    ssd1351_display_num(0, 48, ecap2IntCount, 8, FONT_3216, Black, Lime);

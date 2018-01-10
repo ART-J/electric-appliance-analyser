@@ -72,31 +72,31 @@ void menu_run(void)
                 case MENU_ITEM_MEASURE:                            //测量模式。
                     func_flag = 0;                                 //？？
                     adc1_2_start();                                //启动ADC
-                    if (adc1_buffer_read == 0) {
-                        adc1_buffer_read = 1;
-                        adc1_voltage_caculate();
-                        disp_adc1_voltage();
+                    if (adc1_buffer_read == 0) {                    //若读取完毕进入
+                        adc1_buffer_read = 1;                       //标志位重置
+                        adc1_voltage_caculate();                    //计算均方根值，滤波
+                        disp_adc1_voltage();                        //显示电压
                     }
-                    if (adc2_buffer_read == 0) {
+                    if (adc2_buffer_read == 0) {                    //此处采集电流，数据处理同上
                         adc2_buffer_read = 1;
                         adc2_current_caculate();
                         disp_adc2_current();
                     }
-                    ecap1_start();
-                    ecap1_frequency_caculate();
-                    disp_ecap1_frequency();
+                    ecap1_start();                                  //开捕获
+                    ecap1_frequency_caculate();                     //计算频率
+                    disp_ecap1_frequency();                         //显示频率
 
-                    ecap2_start();
-                    ecap2_phase_caculate();
-                    disp_ecap2_phase();
+                    ecap2_start();                                  //开捕获
+                    ecap2_phase_caculate();                         //计算相位
+                    disp_ecap2_phase();                             //显示相位
 
-                    adc1_2_power_caculate();
-                    disp_adc1_2_power();
+                    adc1_2_power_caculate();                        //功率计算
+                    disp_adc1_2_power();                            //显示功率信息
 
-                    status_update();
-                    disp_status();
+                    status_update();                                //状态更新
+                    disp_status();                                  //显示状态值
 
-                    sci2_transmit_data();
+                    sci2_transmit_data();                           //？？
                     break;
                 case MENU_ITEM_SPECTRUM:
                     func_flag = 0;

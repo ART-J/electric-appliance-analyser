@@ -58,10 +58,10 @@ void ecap1_frequency_caculate(void)
     extern volatile uint32_t ecap1Cap2Count;
     extern volatile uint32_t ecap1Cap3Count;
 
-    ecap1_freq = (double)200000000.0 / (double)(ecap1Cap2Count + ecap1Cap3Count);
-    ecap1_duty = (double)ecap1Cap3Count / (double)(ecap1Cap2Count + ecap1Cap3Count) * 100.0;
+    ecap1_freq = (double)200000000.0 / (double)(ecap1Cap2Count + ecap1Cap3Count);//获取频率，200MHZ周期除以高低电平时间相加
+    ecap1_duty = (double)ecap1Cap3Count / (double)(ecap1Cap2Count + ecap1Cap3Count) * 100.0;//获取占空比，高电平时间除以低电平时间
 
-    if (ecap1_freq < ecap1_50_mHz_start) {
+    if (ecap1_freq < ecap1_50_mHz_start) {                      //分段误差补偿
         // 50.000 mHz ~ 99.999 mHz
         ecap1_freq = 0.0;
     } else if (ecap1_freq >= ecap1_50_mHz_start && ecap1_freq < ecap1_100_mHz_start) {

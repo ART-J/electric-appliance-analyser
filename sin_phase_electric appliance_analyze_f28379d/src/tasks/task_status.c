@@ -57,15 +57,15 @@ void status_update(void)
 //    elec_param[5].current = 0.012;
 //    elec_param[6].current = 0.025;
 //    elec_param[7].current = 8;
-
-    for (i=1; i<8; i++) {
-        if (elec_param[i].status == 0) {
-            if ((adc2_current_rms < elec_param[i].current_max) && (adc2_current_rms > elec_param[i].current_min)) {
-                elec_param[i].count_on++;
-                if (elec_param[i].count_on == 3) {
+      //count_on开计数，count_off关计数，
+    for (i=1; i<8; i++) {                                               //根据每个用电器的电流比较，判断用电器是否上电
+        if (elec_param[i].status == 0) {                                                                                  //若状态为0时判断是否状态改变为1
+            if ((adc2_current_rms < elec_param[i].current_max) && (adc2_current_rms > elec_param[i].current_min)) {       //current_max ，current_min取多少
+                elec_param[i].count_on++;                                                                                 //若在判断范围内，判断正确计数器加一
+                if (elec_param[i].count_on == 3) {                                                                        //累计3次判断正确才置状态为1
                     elec_param[i].status = 1;
                 }
-            } else {
+            } else {                                                                                                       //若状态为1时判断是否状态改变为0，方法同上
                 if (elec_param[i].count_on > 0) {
                     elec_param[i].count_on--;
                     if (elec_param[i].count_on == 0) {
@@ -74,7 +74,7 @@ void status_update(void)
                 }
             }
         }
-
+        //若需要设置开和关判断时累计次数不一样，则因再加count_off关计数 。相同次数可去除off判断
         if (elec_param[i].status == 1) {
             if ((adc2_current_rms > elec_param[i].current_max) || (adc2_current_rms < elec_param[i].current_min)) {
                 elec_param[i].count_off++;

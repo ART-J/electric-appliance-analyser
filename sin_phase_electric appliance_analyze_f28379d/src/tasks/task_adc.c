@@ -101,14 +101,14 @@ void adc1_voltage_caculate(void)
     double rms_sum = 0;
 
     uint16_t i;
-
+    //计算均方根值，rms = sqrt(sum(adc1_voltage_rms^2)/1024.0)
     for (i=0; i<2048; i+=2) {
-        adc1_voltage_rms = 3.0 * (adc1_buffer_sample[i] / 65536.0);
-        rms_sum += pow(adc1_voltage_rms, 2);
+        adc1_voltage_rms = 3.0 * (adc1_buffer_sample[i] / 65536.0);        //模数标度转换
+        rms_sum += pow(adc1_voltage_rms, 2);                               //累加平方值
     }
 
-    adc1_voltage_rms = rms_sum / 1024.0;
-    adc1_voltage_rms = sqrt(adc1_voltage_rms)  * adc1_voltage_rms_ratio;
+    adc1_voltage_rms = rms_sum / 1024.0;                                   //取平均值
+    adc1_voltage_rms = sqrt(adc1_voltage_rms)  * adc1_voltage_rms_ratio;   //开平方，取均方根值；并乘上系数，校准偏差。
 }
 
 void adc1_spectrum_caculate(void)
@@ -313,10 +313,10 @@ void adc1_2_phase_caculate(void)
 
 void adc1_2_power_caculate(void)
 {
-    extern double ecap2_phase_radian;
+    extern double ecap2_phase_radian;      //相位，单位弧度
 
-    adc1_2_apparent_power = adc1_voltage_rms * adc2_current_rms;
-    adc1_2_active_power   = adc1_2_apparent_power * cos(ecap2_phase_radian);
-    adc1_2_reactive_power = adc1_2_apparent_power * sin(ecap2_phase_radian);
-    adc1_2_power_factor   = cos(ecap2_phase_radian);
+    adc1_2_apparent_power = adc1_voltage_rms * adc2_current_rms;                //视在功率
+    adc1_2_active_power   = adc1_2_apparent_power * cos(ecap2_phase_radian);    //有功功率
+    adc1_2_reactive_power = adc1_2_apparent_power * sin(ecap2_phase_radian);    //无功功率
+    adc1_2_power_factor   = cos(ecap2_phase_radian);                            //功率因数
 }
