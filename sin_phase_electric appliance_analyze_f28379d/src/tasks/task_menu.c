@@ -96,11 +96,11 @@ void menu_run(void)
                     status_update();                                //状态更新
                     disp_status();                                  //显示状态值
 
-                    sci2_transmit_data();                           //？？
+                    sci2_transmit_data();                           //串口数据发送
                     break;
-                case MENU_ITEM_SPECTRUM:
+                case MENU_ITEM_SPECTRUM:                            //频谱模式
                     func_flag = 0;
-                    adc1_2_start();
+                    adc1_2_start();                                 //启动ADC1,2
 //                    if (adc1_buffer_read == 0) {
 //                        adc1_buffer_read = 1;
 //                        epwm1_stop();
@@ -110,14 +110,14 @@ void menu_run(void)
 //                    }
                     if (adc2_buffer_read == 0) {
                         adc2_buffer_read = 1;
-                        adc2_fft();
-                        adc2_spectrum_caculate();
-                        disp_adc2_spectrum();
+                        adc2_fft();                                 //ADC值做频谱存储
+                        adc2_spectrum_caculate();                   //频谱计算
+                        disp_adc2_spectrum();                       //***显示频谱***
                     }
                     break;
-                case MENU_ITEM_HARMONIC:
+                case MENU_ITEM_HARMONIC:                            //谐波分析模式
                     func_flag = 0;
-                    adc1_2_start();
+                    adc1_2_start();                                 //启动ADC1,2
 //                    if (adc1_buffer_read == 0) {
 //                        adc1_buffer_read = 1;
 //                        epwm1_stop();
@@ -128,29 +128,29 @@ void menu_run(void)
 //                    }
                     if (adc2_buffer_read == 0) {
                         adc2_buffer_read = 1;
-                        adc2_fft();
-                        adc2_spectrum_caculate();
-                        adc2_harmonic_caculate();
-                        disp_adc2_harmonic();
+                        adc2_fft();                                //ADC值做频谱存储
+                        adc2_spectrum_caculate();                  //频谱计算
+                        adc2_harmonic_caculate();                  //谐波计算
+                        disp_adc2_harmonic();                      //谐波显示
                     }
                     break;
-                case MENU_ITEM_LEARN:
+                case MENU_ITEM_LEARN:                              //学习模式
                     func_flag = 1;
-                    adc1_2_start();
+                    adc1_2_start();                                //启动ADC1,2
                     if (adc2_buffer_read == 0) {
                         adc2_buffer_read = 1;
-                        adc2_current_caculate();
+                        adc2_current_caculate();                   //电流计算
 //                        adc2_fft();
 //                        adc2_spectrum_caculate();
 //                        adc2_harmonic_caculate();
                     }
-                    status_learn();
+                    status_learn();                                //用电器状态学习
                     break;
                 case MENU_ITEM_VIEW:
                     func_flag = 0;
-                    status_view();
+                    status_view();                                 //用电器状态显示
                     break;
-                case MENU_ITEM_RESET:
+                case MENU_ITEM_RESET:                              //用电器状态清空
                     func_flag = 0;
                     status_clear();
                     break;
