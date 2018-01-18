@@ -58,7 +58,7 @@ void menu_run(void)
     extern uint32_t eqep1_position;                //编码器按键
     extern uint16_t func_flag;
 
-    eqep1_position_caculate();                     //编码器位置检测  ？？在主函数中扫描检测？
+    eqep1_position_caculate();                     //编码器位置检测
 
     disp_refresh();                                //显示菜单等级
     switch (menu_level) {                          //菜单等级0:,1:
@@ -70,7 +70,7 @@ void menu_run(void)
         case 1:
             switch (menu_item) {
                 case MENU_ITEM_MEASURE:                            //测量模式。
-                    func_flag = 0;                                 //？？
+                    func_flag = 0;
                     adc1_2_start();                                //启动ADC
                     if (adc1_buffer_read == 0) {                    //若读取完毕进入
                         adc1_buffer_read = 1;                       //标志位重置
@@ -135,7 +135,7 @@ void menu_run(void)
                     }
                     break;
                 case MENU_ITEM_LEARN:                              //学习模式
-                    func_flag = 1;
+                    func_flag = 1;                                 //学习菜单标志
                     adc1_2_start();                                //启动ADC1,2
                     if (adc2_buffer_read == 0) {
                         adc2_buffer_read = 1;
@@ -163,25 +163,25 @@ void menu_run(void)
     }
 }
 
-interrupt void xint1_isr(void)
+interrupt void xint1_isr(void)     //按键1进入
 {
     extern uint16_t disp_refresh_flag;
     extern uint16_t learn_flag;
     extern uint16_t func_flag;
 
-    if (func_flag && learn_flag == 0) {
-        learn_flag = 1;
+    if (func_flag && learn_flag == 0) {         //若学习菜单标志位==1，且学习标志位==0
+        learn_flag = 1;                         //学习标志位=1
     }
 
-    if (menu_level == MENU_LEVEL_1) {
+    if (menu_level == MENU_LEVEL_1) {           //菜单切换
         menu_level = MENU_LEVEL_2;
-        disp_refresh_flag = 1;
+        disp_refresh_flag = 1;                  //刷新界面标志位
     }
 
-    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);
+    Interrupt_clearACKGroup(INTERRUPT_ACK_GROUP1);     //清中断组内所有标志位
 }
 
-interrupt void xint2_isr(void)
+interrupt void xint2_isr(void)    //按键2返回
 {
     extern uint16_t disp_refresh_flag;
 
